@@ -6,11 +6,6 @@ def retry_invalid_response(callback):
         if response.status >= 400:
             if response.status == 404:
                 spider.logger.info('Page not found.')
-
-                # If Sitemap URL is not working the extract product links by crawling categories pages.
-                if spider.sitemap_url in response.url:
-                    return spider.get_categories_requests()
-
                 return spider.get_next_product_request(response)
 
             retry_times = response.meta.get('retry_times', 0)
